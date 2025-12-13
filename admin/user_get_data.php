@@ -78,8 +78,7 @@
             <input type="number" name="zipcode1" class="form-control" value="'.$Zipcode.'" required>
           </div>
           <div class="d-flex justify-content-end">
-            <button type="reset" class="btn btn-secondary me-2">Reset</button>
-            <button type="submit" name="update_user1" value="submit" onclick="edit_user('.$id.')" class="btn btn-primary">Update</button>
+            <button type="button" name="update_user1" value="submit" onclick="edit_user('.$id.')" class="btn btn-primary">Update</button>
           </div>
         </form>
       </div>

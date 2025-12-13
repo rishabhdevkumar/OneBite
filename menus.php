@@ -52,6 +52,50 @@
         }
       })
     }
+
+    function add_cart(p_id, catid){
+    //$('#preloader').show();
+
+    const menu_id = p_id;
+    const category_id = catid;
+
+    const dataString = 'p_id=' + menu_id + '&cat_id=' + category_id;
+
+    $.ajax({
+        type: "POST",
+        url: "add_cart.php",
+        data: dataString,
+        success: function(data){
+            const response = data.split("|");
+            $('#item_cart').text(response[0]);
+            $('#fd').html(response[1]);
+            $('#preloader').hide();
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus, errorThrown);
+        }
+    });
+}
+
+
+    // function item_remove2(p_id){
+    //   const menu_id = p_id;
+    //   const dataString = 'p_id='+ menu_id;
+
+    //   $.ajax({
+    //     type: "POST",
+    //     url: "ajax_item_remove.php",
+    //     data: dataString,
+    //     success: function (data){
+    //       const response=data.split("|");
+    //       $('#item_cart').text(response[0]);
+    //       $('#fd').html(response[1]);
+    //     }
+    //     error: function(jqXHR, textStatus, errorThrown){
+    //       console.log(textStatus, errorThrown);
+    //     }
+    //   });
+    // }
   </script>
 
 </head>
@@ -82,7 +126,7 @@
   </style>
   <!--select button section-->
   <div class="container">
-    <div class="row sel_but_row" style="margin-top: -110px;">
+    <div class="row sel_but_row" style="margin-top: -130px;">
       <div class="col-md-12 sel_but_col">
         <?php while ($fetch_category = mysqli_fetch_array($run_categories)) { ?>
         <button class="menu-btn <?php if ($fetch_category['id'] == $category_id) echo 'color_act'; ?>"
@@ -97,7 +141,8 @@
   <!--menu card section-->
   <div class="container mhj">
     <div class="row dgtk">
-      <div class="col-md-12 col-sm-12 col-xs-12 menu_margin">
+      <div id="preloader"></div>
+      <div class="col-md-12 col-sm-12 col-xs-12 menu_margin" id="ad">
         <?php if(mysqli_num_rows($run_menus) > 0){
             while ($menu = mysqli_fetch_array($run_menus)) { ?>
         <div class="col-md-4 col-sm-12 col-xs-12" id="menu-btn">
@@ -124,12 +169,13 @@
               </p>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 www">
-              <button type="button" class="btn btn-danger bt_style menu1_mar">ADD TO CART</button>
+              <button onclick="add_cart(<?php echo $menu['id'].','.$menu['category_id'];?>);" type="button" class="btn btn-danger bt_style menu1_mar"
+              >ADD TO CART</button>
             </div>
           </div>
         </div>
         <?php } } else { ?>
-        <p class="text-center">No menus found for this category.</p>
+        <p class="text-center" style="font-size:25px !important;">No menus found for this category.</p>
         <?php } ?>
       </div>
     </div>

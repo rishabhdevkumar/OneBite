@@ -18,11 +18,10 @@
       <div class="col-md-12 col-md-12 col-xs-12 text_center1 nopadd video_sec1">
         <div class="col-md-3 col-sm-12 col-xs-12 text-center asddf clearfix" style="height: 77px;">
           <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-            <h5 class="qaxds">ONEBITE<img src="image/1B2.png" style="margin-left: -140px;"></a></h5>
+            <h5 class="qaxds"><img src="image/mylogo.png" style="margin-left: -5px;"></a></h5>
             <p class="mar-le">
-              vienna a premium resturant wordpress
-              theme develop by micro themes and
-              design for resturant and bar owners.
+              OneBite Restaurant is a place <br>where every bite brings pure happiness.<br>
+              We serve fresh, delicious, and beautifully crafted dishes that satisfy your cravings instantly.
             </p>
           </div>
         </div>

@@ -30,8 +30,10 @@ if(mysqli_num_rows($run_catagory) > 0){
               <p class="marg_left">'.$fetch_menu['menu_description'].'</p>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 www">
-              <button type="button" class="btn btn-danger bt_style menu1_mar">ADD TO CART</button>
+              <button onclick="add_cart('.$fetch_menu['id'].','.$fetch_menu['category_id'].');" type="button" class="btn btn-danger bt_style menu1_mar"
+              >ADD TO CART</button>
             </div>
+
           </div>
         </div>';
     }

@@ -5,6 +5,7 @@
     if (!$run) {
         die("Database query failed: " . mysqli_error($connect)); 
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -30,57 +31,76 @@
 
     <script>
         function show_data(us_id) {
-        $.ajax({
-            url: "user_get_data.php",
-            type: "POST",
-            data: { user_id: us_id }, 
-            success: function (data) {
-            $("#editUserModal").html(data);
-            $("#editUserModal").modal("show"); 
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-            },
-        });
+            $.ajax({
+                url: "user_get_data.php",
+                type: "POST",
+                data: { user_id: us_id },
+                success: function (data) {
+                    $("#editUserModal").html(data);
+                    $("#editUserModal").modal("show");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                },
+            });
         }
 
-     function city_by_state(state_id) {
+        function city_by_state(state_id) {
+            $.ajax({
+                url: "user_city_ajax.php",
+                type: "POST",
+                data: { state: state_id },
+                success: function (data) {
+                    $("#editUserModal").html(data);
+                    $("#editUserModal").modal("show");
+                },
+                error: function (jqXHR, textstatus, errorThrown) {
+                    console.log(textstatus, errorThrown);
+                }
+            });
+        }
+
+    function edit_user(id) {
+    const formData = $("form").serialize() + "&id=" + id;
+
     $.ajax({
-        url: "user_city_ajax.php",
+        url: "user_edit.php",
         type: "POST",
-        data: { state: state_id },
+        data: formData,
         success: function (data) {
-             $("#editUserModal").html(data);
-            $("#editUserModal").modal("show");  
+
+            // REMOVE exit() — it breaks JS
+
+            if (data.trim() == "Email Already Exists") {
+                alert("Email Already Exists");
+            } else {
+                $("#abc").html(data);
+                $("#editUserModal").modal("hide");
+            }
         },
-        error: function (jqXHR, textstatus, errorThrown) {
-            console.log(textstatus, errorThrown);
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         }
     });
 }
 
 
-     function edit_user(temp)
-     {
-        const id = temp;
-        const values = $("form").serialize() + '&id=' +id;
-      $.ajax({
-        url: "user_edit.php",
-        type: "POST",
-        data: values,
-        success: function (data) {
-            if(data =='Email Already Exists')
-            {
-                alert('Email Already Exists');
-            }else{
-                $("#editUserModal").html(data);
+
+        function search_user() {
+        let search_value = $("#search").val();
+        $.ajax({
+            url: "search.php",
+            type: "POST",
+            data: { search: search_value },
+            success: function (data) {
+                $("#search_result").html(data);
+            },
+            error: function (jqXHR, textstatus, errorThrown) {
+            console.log(textstatus, errorThrown);
             }
-        },
-        error: function (jqXHR, textstatus, errorThrown) {
-          console.log(textstatus, errorThrown);
-        }
-      })
+        });
     }
+
     </script>
 </head>
 
@@ -98,8 +118,16 @@
                     <div class="clear"></div>
                 </div>
                 <div class="content-box-content">
-                    <div class="tab-content">
+                    <div class="tab-content" id="abc">
                         <form id="dashboard" method="POST" action="" enctype="multipart/form-data">
+                            <div style="margin-bottom: 15px;">
+                                <input type="text" id="search" name="search" placeholder="Search by name, and email..."
+                                    style="padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 4px;">
+                                <button type="button" name="search_btn" class="search_button" onclick="search_user()"
+                                    style="padding: 8px 15px; border-radius: 4px;">
+                                    Search
+                                </button>
+                            </div>
                             <table class="user_table">
                                 <thead>
                                     <tr>
@@ -116,7 +144,7 @@
                                         <th class="user_detail">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="search_result">
                                     <?php
                                     $i = 1;
                                     while ($fetch_user = mysqli_fetch_array($run)) {
@@ -154,13 +182,13 @@
                                         <td>
                                             <?php echo $fetch_user['zip_code'];?>
                                         </td>
-                                            <td>
+                                        <td>
                                             <?php echo $fetch_user['address'];?>
                                         </td>
                                         <td>
-                                           <a href="javascript:void(0)" title="Edit User"
-                                             onclick="show_data(<?php echo $fetch_user['id']?>);">
-                                             <img src="images/edit_user.png" alt="Edit">
+                                            <a href="javascript:void(0)" title="Edit User"
+                                                onclick="show_data(<?php echo $fetch_user['id']?>);">
+                                                <img src="images/edit_user.png" alt="Edit">
                                             </a>
                                             <a href="javascript:void(0)"
                                                 onclick="return confirm('Are you sure you want to delete this user?')"
@@ -183,7 +211,7 @@
             <div class="clear"></div>
         </div>
     </div>
-   <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content card-style">
                 <div class="modal-header">
@@ -252,29 +280,47 @@
         display: flex;
         flex-direction: column;
     }
+
     .content-box-header {
         background: #210b44;
         color: #fff;
     }
+
     .content-box-header h3 {
         margin: 0;
         font-size: 20px;
     }
+
     .modal-header .btn-close {
         filter: invert(1) grayscale(100%) brightness(200%);
     }
+    .search_button {
+        transition: background 0.4s ease;
+        background: #210b44;  
+        color: #fff;
+        border: none;
+    }
+
+    .search_button:hover {
+        background: green; 
+        color: #000;   
+        cursor: pointer;
+    }
+
     .user_table {
         width: 100%;
         border-collapse: collapse;
         font-size: 14px;
         border: 1px solid #cecece;
     }
+
     .user_table thead th {
         color: #333;
         border: 1px solid #cecece;
         background: #faf5f5;
         text-align: center;
     }
+
     .user_table td {
         color: #555;
         background: #fff;
@@ -283,59 +329,73 @@
         vertical-align: middle;
         padding: 8px;
     }
+
     .form-label {
         color: #000;
         font-weight: bold;
     }
+
     select.form-control {
         -webkit-appearance: auto;
     }
+
     .profile_img {
         width: 25px;
         height: 25px;
         border-radius: 50%;
         object-fit: cover;
     }
+
     .user_table tbody tr:nth-child(odd) td {
         background: #ffffff;
     }
+
     .user_table tbody tr:nth-child(even) td {
         background: #f9f9f9;
     }
+
     .card-style {
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border: none;
     }
+
     .modal-header {
         background: #210b44;
         color: #fff;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
     }
+
     .modal-body {
         background: #f8f8f8;
     }
+
     .btn-link {
         text-decoration: none;
     }
+
     .form-control {
         border-radius: 5px;
         border: 1px solid #cecece;
         padding: 8px;
     }
+
     .btn-primary,
     .btn-secondary {
         border-radius: 5px;
     }
+
     .notification {
         position: relative;
         cursor: pointer;
     }
+
     .notification img {
         width: 30px;
         height: 30px;
     }
+
     .badge {
         position: absolute;
         top: -5px;

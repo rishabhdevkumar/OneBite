@@ -1,10 +1,15 @@
 <?php
-  include("config.php");  
+  include("config.php"); 
+   if($_SESSION['add_cart']==false)
+    {
+      $_SESSION['item_count']=false;
+    }
 
-  $id = $_SESSION['user_id'];
+  // $id = $_SESSION['user_id'];
   $select = "SELECT * FROM user WHERE id = '".$id."'";
   $run = mysqli_query($connect, $select);
   $fetch = mysqli_fetch_array($run);
+
 ?>
 
 <!DOCTYPE html>
@@ -19,10 +24,31 @@
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery.validate.min.js"></script> 
+  <script type="text/javascript" src="js/jquery.validate.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 </head>
+<script>
+  function empty_cart(){
+
+    $.ajax({
+        type: "POST",
+        url: "cart_destroy.php",
+        success: function (data){
+            const response = data.split("|");
+
+            $('#item_cart').text(response[0]);
+            $('#fd').html(response[1]);
+
+            window.location.href = "menus.php"; 
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus, errorThrown);
+        }
+    });
+}
+
+</script>
 
 <nav class="navbar navbar-default navbar-fixed-top ggg">
   <div class="container-fluid jjj">
@@ -32,8 +58,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand mmm1 out_line acc_col" href="index.html">BURGATORY<img src="image/burger.png" height="60"
-          height="60" class="ttt"></a>
+      <a class="navbar-brand mmm1 out_line acc_col" style="margin: 10px 0px 5px 0px" href="index.php"><img src="image/mylogo.png" height="80"
+          height="80" class="ttt"></a>
     </div>
     <div class="collapse navbar-collapse mmm askjd" id="myNavbar">
       <ul class="nav navbar-nav navbar-right iii">
@@ -55,76 +81,53 @@
         <li class="<?php echo ($nav=='contact') ? 'active' : ''; ?>">
           <a href="contact_us.php" class="asek out_line acc_col">CONTACT US</a>
         </li>
-        <li class="dropdown">
+
+        <li class="dropdown <php if($nav=='cart'){ echo 'active';}?>">
           <a href="#" class="dropdown-toggle toggle_radius cart_ic_font acc_col" data-toggle="dropdown" role="button"
-            aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 7<span
-              class="caret"></span></a>
-          <ul class="dropdown-menu dropdown-cart toggle_radius drop_back1" role="menu">
+            aria-expanded="false"><span id="item_cart" class="glyphicon glyphicon-shopping-cart"><?php echo $_SESSION['item_count'];?></span>
+            <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-cart toggle_radius drop_back1" role="menu" id="fd">
+            <?php 
+              foreach ($_SESSION['add_cart'] as $key => $item){
+            ?>
             <li>
               <span class="item">
                 <span class="item-left">
-                  <img src="" alt="" />
+                  <img class="td_img" src="admin/menu_img/<?php echo $item['product_image']?>" alt="" />
                   <span class="item-info">
-                    <span>Item name</span>
-                    <span>$23</span>
+                    <span><?php echo $item['product_name'];?></span>
+                    <span>Rs.<?php echo $item['product_price'];?></span>
                   </span>
                 </span>
-                <span class="item-right">
+                 <span class="item-right">
                   <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
                       class="btn btn-xs btn-danger pull-right">x</button>
                 </span>
               </span>
             </li>
-            <li>
-              <span class="item">
-                <span class="item-left">
-                  <img src="" alt="" />
-                  <span class="item-info">
-                    <span>Item name</span>
-                    <span>$23</span>
-                  </span>
-                </span>
-                <span class="item-right">
-                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                      class="btn btn-xs btn-danger pull-right">x</button>
-                </span>
-              </span>
-            </li>
-            <li>
-              <span class="item">
-                <span class="item-left">
-                  <img src="" alt="" />
-                  <span class="item-info">
-                    <span>Item name</span>
-                    <span>$23</span>
-                  </span>
-                </span>
-                <span class="item-right">
-                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""></button><button
-                    class="btn btn-xs btn-danger pull-right">x</button>
-                </span>
-              </span>
-            </li>
-            <li>
-              <span class="item">
-                <span class="item-left">
-                  <img src="" alt="" />
-                  <span class="item-info">
-                    <span>Item name</span>
-                    <span>$23</span>
-                  </span>
-                </span>
-                <span class="item-right">
-                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                      class="btn btn-xs btn-danger pull-right">x</button>
-                </span>
-              </span>
-            </li>
+            <?php
+              }
+            ?>
             <li class="divider"></li>
-            <li><a class="text-center order_weight " href="cart.php"><button type="button"
-                  class="btn btn-danger text-center">View All</button></a></li>
+            <?php
+              if($_SESSION['add_cart']==true){
+            ?>
+             <li><a class="pull-left" href="cart.php">
+              <button type="button" class="btn btn-danger order-weight">View all
+              </button></a>
+            </li>
+            <li><a>
+              <button type="button" class="btn btn-danger pull-right" onclick="empty_cart()">Empty Cart
+              </button></a>
+            </li>
+            <?php }else{?>
+              <h5 class="text-center text_c thank_font">Cart is Empty</h5>
+            <?php 
+            }
+            ?>
           </ul>
         </li>
+
         <li class="dropdown">
           <a class="dropdown-toggle user_mar_font toggle_radius cart_ic_font acc_col" data-toggle="dropdown" href="#">
             <i class="fa fa-user" aria-hidden="true"></i>

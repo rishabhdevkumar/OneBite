@@ -151,8 +151,8 @@
           <p>832108</p>
           <p class="undr_line1"></p>
           <h5 class="cont_add1">TELEPHONES</h5>
-          <p class="pad_add">Restaurant : 6566757677</p>
-          <p> Fax : 7467658908</p>
+          <p class="pad_add">Restaurant : 6566757677766</p>
+          <p> Fax : 7467658908676</p>
           <p class="undr_line1"></p>
           <h5 class="cont_add1">LET’S STAY IN TOUCH</h5>
           <p class="pad_add">Lorem ipsum dotlor

@@ -1,6 +1,5 @@
 <?php
   include("config.php");
-  $nav = "home";
   include("header.php");
   $user_id = $_SESSION['user_id'];
   $change_profile = "SELECT * FROM `user` WHERE id='".$user_id."'";
@@ -61,7 +60,7 @@
       if($num>0)
       {
         $_SESSION['user_id'] = $fetch['id'];
-        header('Location:index.php');
+        echo'<script>window.location.href="index.php"</script>';
       }else{
         echo '<script>alert("something wrong")</script>';
       }
@@ -73,10 +72,7 @@
     }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
   <script type="text/javascript">
     $(document).ready(function () {
 
@@ -281,7 +277,6 @@
     }
 
   </script>
-</head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
   <div class="container-fluid">
@@ -317,6 +312,13 @@
                       id="password1" name="password">
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="captcha" class="">Captcha</label>
+                  <div class="valid">
+                    <input type="captcha" class="form-control input_height4" placeholder="Enter captcha code"
+                      id="captcha1" name="captcha">
+                  </div>
+                </div>
                 <div class="form-group width_c2">
                   <label><input type="checkbox">&nbsp <h5 class="remb_mar">Rmember me</h5></label>
                 </div>
@@ -326,7 +328,7 @@
                       Password?</button></label>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 text-center log_mkh">
-                  <button type="Submit" value="Submit" class="btn label-danger btn_padding" id="save1"
+                  <button type="submit" value="submit" class="btn label-danger btn_padding" id="save1"
                     name="save1">LOGIN</button>
                 </div>
               </div>
@@ -511,8 +513,6 @@
   ?>
 
 </body>
-
-</html>
 
 <style>
   .modal-header {
