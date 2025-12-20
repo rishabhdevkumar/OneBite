@@ -1,5 +1,6 @@
 <?php
   include("config.php");
+  include("header.php"); 
   session_start();  
   if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
   {
@@ -93,15 +94,6 @@ if(isset($_POST['update']))
 <html lang="en">
 
 <head>
-  <title>My Burgatory</title>
-  <!-- <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"> -->
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
 
   <script type="text/javascript">
 
@@ -220,21 +212,6 @@ if(isset($_POST['update']))
 
     });
 
-    // document.addEventListener("DOMContentLoaded", function () {
-    //   document.getElementById('editPasswordbutton').addEventListener('click', function (e) {
-    //     e.preventDefault();
-    //     document.getElementById('password').removeAttribute('disabled');
-    //     document.getElementById('confirm_password').removeAttribute('disabled');
-    //     document.getElementById('password').focus();
-    //   });
-    // });
-
-    // document.getElementById('editPasswordbutton').addEventListener('click', function (e) {
-    //   e.preventDefault();
-    //   document.getElementById('password').removeAttribute('disabled');
-    //   document.getElementById('confirm_password').removeAttribute('disabled');
-    //   document.getElementById('password').focus();
-    // });
 
     function get_city_by_state(temp) {
       const state = temp;
@@ -256,129 +233,6 @@ if(isset($_POST['update']))
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-  <nav class="navbar navbar-default navbar-fixed-top ggg">
-    <div class="container-fluid jjj">
-      <div class="navbar-header ddd">
-        <button type="button" class="navbar-toggle nnn" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand mmm1 out_line acc_col" href="index.html">BURGATORY<img src="image/burger.png" height="60"
-            height="60" class="ttt"></a>
-      </div>
-      <div class="collapse navbar-collapse mmm askjd" id="myNavbar">
-        <ul class="nav navbar-nav navbar-right iii">
-          <li><a href="index.php" class="asek out_line acc_col">HOME</a></li>
-          <li><a href="about.php" class="asek out_line acc_col">ABOUT</a></li>
-          <li><a href="menus.php" class="asek out_line acc_col">MENU</a></li>
-          <li><a href="gallary.php" class="asek out_line acc_col">GALLARY</a></li>
-          <li><a href="reservation.php" class="asek out_line acc_col">RESERVATION</a></li>
-          <li><a href="contact_us.php" class="asek out_line acc_col">CONTACT US</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle toggle_radius cart_ic_font acc_col" data-toggle="dropdown" role="button"
-              aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> 7<span
-                class="caret"></span></a>
-            <ul class="dropdown-menu dropdown-cart toggle_radius drop_back1" role="menu">
-              <li>
-                <span class="item">
-                  <span class="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
-                      <span>Item name</span>
-                      <span>$23</span>
-                    </span>
-                  </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                        class="btn btn-xs btn-danger pull-right">x</button>
-                  </span>
-                </span>
-              </li>
-              <li>
-                <span class="item">
-                  <span class="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
-                      <span>Item name</span>
-                      <span>$23</span>
-                    </span>
-                  </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                        class="btn btn-xs btn-danger pull-right">x</button>
-                  </span>
-                </span>
-              </li>
-              <li>
-                <span class="item">
-                  <span class="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
-                      <span>Item name</span>
-                      <span>$23</span>
-                    </span>
-                  </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                        class="btn btn-xs btn-danger pull-right">x</button>
-                  </span>
-                </span>
-              </li>
-              <li>
-                <span class="item">
-                  <span class="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
-                      <span>Item name</span>
-                      <span>$23</span>
-                    </span>
-                  </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                        class="btn btn-xs btn-danger pull-right">x</button>
-                  </span>
-                </span>
-              </li>
-              <li class="divider"></li>
-              <li><a class="text-center order_weight " href="cart.php"><button type="button"
-                    class="btn btn-danger text-center">View All</button></a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a class="dropdown-toggle user_mar_font toggle_radius cart_ic_font acc_col" data-toggle="dropdown"
-              href="#"><i class="fa fa-user" aria-hidden="true"></i>
-              <span class="caret"></span></a>
-            <ul class="dropdown-menu toggle_radius drop_back1">
-              <?php
-                session_start();
-                include("config.php");
-                if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-                $id = $_SESSION['user_id'];
-                $select = "SELECT * FROM user WHERE id = '".$id."'";
-                $run = mysqli_query($connect, $select);
-                $fetch = mysqli_fetch_array($run);
-              ?>
-              <p style="margin: 0px 0px 5px 0px; color: purple">
-                Welcome
-                <?php echo $fetch['name']; ?>
-              </p>
-              <li><a href="my_account.php" class="drop_back">My Account</a></li>
-              <li><a href="my_order.php" class="drop_back">My Order</a></li>
-              <li><a href="logout.php" class="drop_back">Logout</a></li>
-              <?php
-              } else {
-              ?>
-              <li><a href="login.php" class="drop_back">Login/Register</a></li>
-              <?php
-              }
-              ?>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
   <div class="container-fluid">
     <div class="row imagd-height">
       <img src="image/restaurant-interior.jpg" class="pos_re">
@@ -414,7 +268,7 @@ if(isset($_POST['update']))
                       <li>
                         <a href="edit_profile.php?profile_id=<?php echo base64_encode($id)?>" class="drop_back"
                           id="editProfilebutton">
-                          <img src="../burgatory/image/edit.png" alt="icon" width="15px" height="15px"> Change Profile
+                          <img src="../onebite/image/edit.png" alt="icon" width="15px" height="15px"> Change Profile
                         </a>
                       </li>
                       <li>
@@ -423,12 +277,12 @@ if(isset($_POST['update']))
                       <li>
                         <a href="#" id="editPasswordbutton" class="drop_back" data-toggle="modal"
                           data-target="#passwordModal">
-                          <img src="../burgatory/image/padlock.png" alt="icon" width="15px" height="15px"> Edit Password
+                          <img src="../onebite/image/padlock.png" alt="icon" width="15px" height="15px"> Edit Password
                         </a>
                       </li>
                       <li>
                         <a href="logout.php" class="drop_back">
-                          <img src="../burgatory/image/logout.png" alt="icon" width="15px" height="15px"> Logout
+                          <img src="../onebite/image/logout.png" alt="icon" width="15px" height="15px"> Logout
                         </a>
                       </li>
                     </ul>

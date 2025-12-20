@@ -29,7 +29,7 @@
 
 </head>
 <script>
-  function empty_cart(){
+  function empty_card(){
 
     $.ajax({
         type: "POST",
@@ -39,8 +39,7 @@
 
             $('#item_cart').text(response[0]);
             $('#fd').html(response[1]);
-
-            window.location.href = "menus.php"; 
+            window.location.href = ("menus.php"); 
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.log(textStatus, errorThrown);
@@ -82,7 +81,7 @@
           <a href="contact_us.php" class="asek out_line acc_col">CONTACT US</a>
         </li>
 
-        <li class="dropdown <php if($nav=='cart'){ echo 'active';}?>">
+        <li class="dropdown <?php if($nav == 'cart'){ echo 'active';}?>">
           <a href="#" class="dropdown-toggle toggle_radius cart_ic_font acc_col" data-toggle="dropdown" role="button"
             aria-expanded="false"><span id="item_cart" class="glyphicon glyphicon-shopping-cart"><?php echo $_SESSION['item_count'];?></span>
             <span class="caret"></span></a>
@@ -100,30 +99,32 @@
                   </span>
                 </span>
                  <span class="item-right">
-                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""><button
-                      class="btn btn-xs btn-danger pull-right">x</button>
+                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""></button>
+                  <button class="btn btn-xs btn-danger pull-right">x</button>
                 </span>
               </span>
             </li>
             <?php
               }
             ?>
-            <li class="divider"></li>
             <?php
               if($_SESSION['add_cart']==true){
             ?>
+             <li class="divider"></li>
              <li><a class="pull-left" href="cart.php">
-              <button type="button" class="btn btn-danger order-weight">View all
+              <button type="button" class="btn btn-danger text-center order-weight">View all
               </button></a>
             </li>
-            <li><a>
-              <button type="button" class="btn btn-danger pull-right" onclick="empty_cart()">Empty Cart
-              </button></a>
+            <li>
+              <button type="button" class="btn btn-danger pull-right order-weight empty_cart_btn" onclick="empty_card()">Empty Cart
+              </button>
             </li>
-            <?php }else{?>
+            <?php 
+              }
+              else{ ?>
               <h5 class="text-center text_c thank_font">Cart is Empty</h5>
             <?php 
-            }
+              }
             ?>
           </ul>
         </li>

@@ -12,7 +12,7 @@
 .send-otp{
 	color: #000;
 	margin-left: 390px;
-	margin-top: -55px;
+	margin-top: -58px;
 	width: 90px;
 	border:  none;
 	font-weight: 600;
@@ -21,13 +21,13 @@
 .send-otp:hover{
 	background: #83c8e4;
 }
-.pass-top {
-	margin-top: -20px;
+/*.pass-top {
+	margin-top: -10px;
 }
 .sel_but_row {
   display: flex;
   gap: 10px; 
-}
+}*/
 .sel_but_col {
   display: flex;
   flex-wrap: wrap;

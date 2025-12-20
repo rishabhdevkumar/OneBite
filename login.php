@@ -70,6 +70,13 @@
       $run = mysqli_query($connect, $select);
       $fetch = mysqli_fetch_array($run);
     }
+
+    // $otp_str = str_shuffle("0123456789");
+    // $otp = substr($otp_str, 0, 6);
+
+    // echo $act_str = rand(100000, 10000000);
+    // echo "</br>";
+    // echo $activation_code = str_shuffle("abcdefghijklmn".$act_str)
 ?>
 
 
@@ -382,23 +389,21 @@
                 <div class="form-group">
                   <label for="email" class="">Email</label>
                   <div class="valid">
-                    <input type="text" class="form-control input_height4" placeholder="Enter Email" id="email"
-                      name=email>
+                    <input type="text" class="form-control input_height4" placeholder="Enter Email" id="email" name=email>
+                    <button class="btn send-otp" data-toggle="modal" data-target="#otpModal">SEND OTP</button>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="phone" class="">Phone No</label>
                   <div class="valid">
-                    <input type="text" class="form-control input_height4" placeholder="Enter Phone no" id="phone"
-                      name="phone">
-                    <button class="btn send-otp" data-toggle="modal" data-target="#otpModal">SEND OTP</button>
+                    <input type="text" class="form-control input_height4" placeholder="Enter Phone no" 
+                    id="phone" name="phone">
                   </div>
                 </div>
                 <div class="form-group pass-top">
                   <label for="password" class="">Password</label>
                   <div class="valid">
-                    <input type="password" class="form-control input_height4" placeholder="Enter Password" id="password"
-                      name="password">
+                    <input type="password" class="form-control input_height4" placeholder="Enter Password" id="password" name="password">
                   </div>
                 </div>
                 <div class="form-group">

@@ -77,7 +77,6 @@
     });
 }
 
-
     // function item_remove2(p_id){
     //   const menu_id = p_id;
     //   const dataString = 'p_id='+ menu_id;
@@ -121,7 +120,9 @@
   <style>
     .menu-btn.color_act {
       background-color: skyblue;
-      color: red;
+      color: black;
+      font-weight: bold;
+      border: 1px dotted green;
     }
   </style>
   <!--select button section-->
