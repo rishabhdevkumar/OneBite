@@ -41,7 +41,6 @@
               <th class="text-center cart_weight">Total</th>
             </tr>
           </thead>
-
           <tbody>
             <?php
               $grand_total = 0;
@@ -64,8 +63,7 @@
                 <?php echo $item['product_name']; ?>
               </td>
               <td class="text-center cart_padd">
-                Rs.
-                <?php echo $item['product_price']; ?>
+                Rs. <?php echo $item['product_price']; ?>
               </td>
               <td class="text-center cart_padd">
                 <input type="number" name="qty[<?php echo $key; ?>]" value="<?php echo $item['product_qty']; ?>" min="1"
@@ -76,14 +74,13 @@
                 <?php echo $subtotal; ?>
               </td>
             </tr>
-
             <?php
               }
               } else {
             ?>
             <tr>
               <td colspan="6" class="text-center">
-                <h4><strong><em>Cart is Empty</em></strong></h4>
+                <h5 class="empty-cart-text"><strong><em>Cart is Empty</em></strong></h5>
               </td>
             </tr>
             <?php } ?>
@@ -98,7 +95,6 @@
         </table>
       </div>
     </form>
-
     <?php if (isset($_SESSION['add_cart']) && count($_SESSION['add_cart']) > 0) { ?>
     <div class="col-md-6 col-sm-12 col-xs-12 pull-right pad_rem">
       <div class="col-md-12 col-sm-12 col-xs-12 pad_rem">
@@ -127,15 +123,29 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 col-sm-12 col-xs-12 pad_rem"> <a href="order_now.php"> <button type="button"
+      <div class="col-md-12 col-sm-12 col-xs-12 pad_rem"><a href="checkout.php"> <button type="button"
           class="btn btn-danger cart_btn cart_pad btn_color">PROCEED TO CHECKOUT</button></a> 
       </div>
     </div>
   </div>
     <?php } ?>
-    <!-- </div> -->
+  </div>
   <?php
     include("footer.php"); 
   ?>
 
 </body>
+
+<style>
+  .empty-cart-text {
+    font-size: 20px;
+    animation: colorBlink 0.9s infinite;
+}
+
+@keyframes colorBlink {
+    0%   { color: blue; }
+    25%  { color: orange; }
+    100% { color: red; }
+}
+
+</style>

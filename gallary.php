@@ -34,7 +34,7 @@
             {
           ?>
           <li class="list_li">
-            <a class="fancybox" rel="group" href="image/sub-buzz-11458-1517958661-1.jpg"><img
+            <a class="fancybox" rel="group" href="admin/menu_img/<?php echo $fetch_image['gallery_image']?>"><img
               src="admin/menu_img/<?php echo $fetch_image['gallery_image']?>"
               class="img-thumbnail jsd pad_remv fix_height1" alt="Cinque Terre">
             </a>

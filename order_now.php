@@ -1,24 +1,34 @@
 <?php
+  session_start(); 
   include("config.php");
-  session_start();  
+  include("header.php"); 
+   
   if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
   {
     header("Location: index.php");
   }
+
+  $user_name  = $_SESSION['user_name'];
+$user_email = $_SESSION['user_email'];
+
+// Cart Items
+$cart_items = $_SESSION['add_cart'] ?? [];
+$total_price = 0;
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>My Burgatory</title>
+  <!-- <title>My Burgatory</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script> -->
 
 
   <script type="text/javascript">
@@ -287,9 +297,6 @@
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-  <?php $nav = "home";
-    include("header.php"); 
-  ?>
   <div class="container-fluid">
     <div class="row imagd-height">
       <img src="image/parpr-restaurant-0039-hor-feat.jpg" class="pos_re">
@@ -306,7 +313,7 @@
         <thead>
           <tr class="">
             <th colspan="4">
-              <h5 class="cart_total">YOUR ORDER</h5>
+              <h5 class="cart_total">YOUR ORDER <span style="color: #007bff;">(<?php echo $user_name; ?>)</span></h5>
             </th>
           </tr>
           <tr>
@@ -317,19 +324,36 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Woo Single #4</td>
-            <td>$13.00</td>
-            <td><input type="number" name="qty" value="1" class="cart_input">
-            <td>$13.00</td>
-          </tr>
-          <tr>
-            <th colspan="4">Subtotal</th>
-          </tr>
-          <tr>
-            <th colspan="4">Total</th>
-          </tr>
-        </tbody>
+<?php
+$total_price = 0;
+
+foreach ($cart_items as $item_id => $item):
+    $subtotal = $item['product_price'] * $item['product_qty'];
+    $total_price += $subtotal;
+?>
+    <tr>
+        <td><?php echo $item['product_name']; ?></td>
+        <td>$<?php echo number_format($item['product_price'], 2); ?></td>
+        <td>
+            <input type="number"
+                   name="qty[<?php echo $item_id; ?>]"
+                   value="<?php echo $item['product_qty']; ?>"
+                   class="cart_input"
+                   min="1">
+        </td>
+        <td>$<?php echo number_format($subtotal, 2); ?></td>
+    </tr>
+<?php endforeach; ?>
+    <tr>
+        <th colspan="3">Subtotal</th>
+        <th>$<?php echo number_format($total_price, 2); ?></th>
+    </tr>
+    <tr>
+        <th colspan="3">Total</th>
+        <th>$<?php echo number_format($total_price, 2); ?></th>
+    </tr>
+</tbody>
+
       </table>
     </div>
 

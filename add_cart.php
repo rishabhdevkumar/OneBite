@@ -68,5 +68,5 @@ echo '
 <li class="divider"></li>
 <li><a class="pull-left" href="cart.php"><button type="button"
 class="btn btn-danger order-weight">View All</button></a></li>
-<li><button type="button" class="btn btn-danger pull-right empty_cart_btn">Empty Cart</button></li>';
+<li><button type="button" class="btn btn-danger pull-right empty_cart_btn" onclick="empty_card()">Empty Cart</button></li>';
 ?>

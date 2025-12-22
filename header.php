@@ -2,7 +2,7 @@
   include("config.php"); 
    if($_SESSION['add_cart']==false)
     {
-      $_SESSION['item_count']=false;
+      $_SESSION['item_count']=0;
     }
 
   // $id = $_SESSION['user_id'];
@@ -83,8 +83,12 @@
 
         <li class="dropdown <?php if($nav == 'cart'){ echo 'active';}?>">
           <a href="#" class="dropdown-toggle toggle_radius cart_ic_font acc_col" data-toggle="dropdown" role="button"
-            aria-expanded="false"><span id="item_cart" class="glyphicon glyphicon-shopping-cart"><?php echo $_SESSION['item_count'];?></span>
-            <span class="caret"></span></a>
+            aria-expanded="false"><span class="glyphicon glyphicon-shopping-cart" style="position:relative;">
+            <span id="item_cart" class="badge" style="position:absolute; top:-8px; right:-10px; background-color:red;
+            ">
+            <?php echo $_SESSION['item_count'] ?>
+            </span></span>
+          </a>
           <ul class="dropdown-menu dropdown-cart toggle_radius drop_back1" role="menu" id="fd">
             <?php 
               foreach ($_SESSION['add_cart'] as $key => $item){
