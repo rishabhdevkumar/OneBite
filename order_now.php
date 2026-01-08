@@ -2,6 +2,10 @@
   session_start(); 
   include("config.php");
   include("header.php"); 
+  if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php?redirect=order_now.php");
+    exit();
+  }
    
   if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
   {
@@ -9,11 +13,14 @@
   }
 
   $user_name  = $_SESSION['user_name'];
-$user_email = $_SESSION['user_email'];
+  $user_email = $_SESSION['user_email'];
 
-// Cart Items
-$cart_items = $_SESSION['add_cart'] ?? [];
-$total_price = 0;
+  $cart_items = $_SESSION['add_cart'] ?? [];
+  $total_price = 0;
+  $user_id = $_SESSION['user_id'];
+  $query = "SELECT * FROM user WHERE id='$user_id'";
+  $result = mysqli_query($connect, $query);
+  $user = mysqli_fetch_assoc($result);
 
 ?>
 
@@ -293,6 +300,40 @@ $total_price = 0;
       });
 
     });
+
+    $(document).ready(function () {
+
+      if ($('#check').is(':checked')) {
+        fillShipping();
+        $('#shipping_form').show();
+      } else {
+        $('#shipping_form').hide();
+      }
+
+      $('#check').on('change', function () {
+        if ($(this).is(':checked')) {
+          fillShipping();
+          $('#shipping_form').slideDown();
+        } else {
+          $('#shipping_form').slideUp();
+        }
+      });
+
+      function fillShipping() {
+        $('#name1').val($('#name').val());
+        $('#email1').val($('#email').val());
+        $('#phone1').val($('#phone').val());
+        $('#address1').val($('#address').val());
+        $('#dob1').val($('#dob').val());
+        $('#gen1').val($('#gen').val());
+        $('#State1').val($('#state').val());
+        $('#City1').val($('#city').val());
+        $('#Zipcode1').val($('#Zipcode').val());
+      }
+
+    });
+
+
   </script>
 </head>
 
@@ -313,7 +354,7 @@ $total_price = 0;
         <thead>
           <tr class="">
             <th colspan="4">
-              <h5 class="cart_total">YOUR ORDER <span style="color: #007bff;">(<?php echo $user_name; ?>)</span></h5>
+              <h5 class="cart_total">YOUR ORDER <span style="color: #007bff;">(<?php echo $user['name']; ?>)</span></h5>
             </th>
           </tr>
           <tr>
@@ -324,36 +365,34 @@ $total_price = 0;
           </tr>
         </thead>
         <tbody>
-<?php
-$total_price = 0;
+          <?php
+            $total_price = 0;
 
-foreach ($cart_items as $item_id => $item):
-    $subtotal = $item['product_price'] * $item['product_qty'];
-    $total_price += $subtotal;
-?>
-    <tr>
-        <td><?php echo $item['product_name']; ?></td>
-        <td>$<?php echo number_format($item['product_price'], 2); ?></td>
-        <td>
-            <input type="number"
-                   name="qty[<?php echo $item_id; ?>]"
-                   value="<?php echo $item['product_qty']; ?>"
-                   class="cart_input"
-                   min="1">
-        </td>
-        <td>$<?php echo number_format($subtotal, 2); ?></td>
-    </tr>
-<?php endforeach; ?>
-    <tr>
-        <th colspan="3">Subtotal</th>
-        <th>$<?php echo number_format($total_price, 2); ?></th>
-    </tr>
-    <tr>
-        <th colspan="3">Total</th>
-        <th>$<?php echo number_format($total_price, 2); ?></th>
-    </tr>
-</tbody>
-
+            foreach ($cart_items as $item_id => $item):
+              $subtotal = $item['product_price'] * $item['product_qty'];
+              $total_price += $subtotal;
+          ?>
+          <tr>
+            <td><?php echo $item['product_name']; ?></td>
+            <td>$<?php echo number_format($item['product_price'], 2); ?></td>
+            <td>
+              <input type="number"
+                name="qty[<?php echo $item_id; ?>]"
+                value="<?php echo $item['product_qty']; ?>"
+                class="cart_input" min="1">
+            </td>
+            <td>$<?php echo number_format($subtotal, 2); ?></td>
+          </tr>
+          <?php endforeach; ?>
+          <tr>
+            <th colspan="3">Subtotal</th>
+            <th>$<?php echo number_format($total_price, 2); ?></th>
+          </tr>
+          <tr>
+            <th colspan="3">Total</th>
+            <th>$<?php echo number_format($total_price, 2); ?></th>
+          </tr>
+        </tbody>
       </table>
     </div>
 
@@ -371,75 +410,81 @@ foreach ($cart_items as $item_id => $item):
               <div class="form-group log_padding2">
                 <label for="name" class="">Name</label>
                 <div class="valid">
-                  <input type="text" class="form-control input_height4" placeholder="Enter Name" id="name" name="name">
+                  <input type="text" class="form-control input_height4" placeholder="Enter Name" id="name" 
+                  name="name" value="<?php echo $user['name']; ?>">
                 </div>
               </div>
               <div class="form-group">
                 <label for="email" class="">Email</label>
                 <div class="valid">
                   <input type="text" class="form-control input_height4" placeholder="Enter Email" id="email"
-                    name="email">
+                    name="email" value="<?php echo $user['email']; ?>">
                 </div>
               </div>
               <div class="form-group">
                 <label for="phone" class="">Phone No</label>
                 <div class="valid">
-                  <input type="text" class="form-control input_height4" placeholder="Enter Phone no" id="phone"
-                    name="phone">
+                  <input type="number" class="form-control input_height4" placeholder="Enter Phone no" id="phone"
+                    name="phone" value="<?php echo $user['phone_no']; ?>">
                 </div>
               </div>
               <div class="form-group">
                 <label for="Address" class="">Address</label>
                 <div class="valid">
                   <input type="text" class="form-control input_height4" placeholder="Enter Address" id="address"
-                    name="address">
+                    name="address" value="<?php echo $user['address']; ?>">
                 </div>
               </div>
               <div class="form-group">
                 <label for="sel1" class="">DOB</label>
                 <div class="valid">
                   <input type="date" class="form-control input_height4" placeholder="Enter date of birth" id="dob"
-                    name="dob">
+                    name="dob" value="<?php echo $user['dob']; ?>">
                 </div>
               </div>
-              <!-- <div class="form-group">
-                            <label for="sel1" class="">Gender</label>
-                        </div> 
-                        <<div class="form-group radio_top">
-                             <label class="radio-inline"><input type="radio" name="optradio" class="radio_top1" id="Male">Male</label>
-                              <label class="radio-inline"><input type="radio" name="optradio" class="radio_top1" id="Female">Female</label>
-                        </div>  -->
-
               <div class="form-group">
                 <label for="sel1">Gender</label>
                 <div class="valid">
                   <select class="form-control input_height4" name="gen" id="gen">
                     <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="Male" <?= ($user['gender']=="Male")?"selected":"" ?>>Male</option>
+                    <option value="Female" <?= ($user['gender']=="Female")?"selected":"" ?>>Female</option>
                   </select>
                 </div>
-
               </div>
+              <?php
+                $select = "SELECT * FROM state";
+                $state_query = mysqli_query($connect, $select);
+              ?>
               <div class="form-group">
                 <label for="sel1">State</label>
                 <div class="valid">
-                  <select class="form-control input_height4" name="State" id="State">
+                  <select class="form-control input_height4" name="state" id="state">
                     <option value="">Select State</option>
-                    <option value="jharkhand">jharkhand</option>
-                    <option value="westbengal">westbengal</option>
-                    <option value="odisha">odisha</option>
-                  </select>
+                      <?php while($row = mysqli_fetch_assoc($state_query)) { ?>
+                    <option value="<?php echo $row['id']; ?>"
+                      <?php echo ($user['state'] == $row['id']) ? 'selected' : ''; ?>>
+                      <?php echo $row['state_name']; ?>
+                    </option>
+                    <?php } ?>
+                  </select>       
                 </div>
               </div>
+              <?php
+                $city_select = "SELECT * FROM city";
+                $city_query = mysqli_query($connect, $city_select);
+              ?>
               <div class="form-group">
                 <label for="sel2">City</label>
                 <div class="valid">
-                  <select class="form-control input_height4" name="City" id="City">
+                  <select class="form-control input_height4" name="city" id="city">
                     <option value="">Select City</option>
-                    <option value="jamshedpur">jamshedpur</option>
-                    <option value="kolkata">kolkata</option>
-                    <option value="cuttack">cuttack</option>
+                      <?php while($row = mysqli_fetch_assoc($city_query)) { ?>
+                      <option value="<?php echo $row['id']; ?>"
+                      <?php echo ($user['city'] == $row['id']) ? 'selected' : ''; ?>>
+                      <?php echo $row['city_name']; ?>
+                    </option>
+                    <?php } ?>
                   </select>
                 </div>
               </div>
@@ -447,7 +492,7 @@ foreach ($cart_items as $item_id => $item):
                 <label for="Zipcode" class="">Zipcode</label>
                 <div class="valid">
                   <input type="text" class="form-control input_height4" placeholder="Enter Zipcode" id="Zipcode"
-                    name="Zipcode">
+                    name="Zipcode" value="<?php echo $user['zip_code']; ?>">
                 </div>
               </div>
             </div>
@@ -462,10 +507,11 @@ foreach ($cart_items as $item_id => $item):
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <label><input type="checkbox" id="check" onclick="sd1()">&nbsp <h5 class="remb_mar">Same as Billing
+                <label><input type="checkbox" id="check" checked>&nbsp <h5 class="remb_mar">Same as Billing
                     Address</h5></label>
               </div>
             </div>
+            
             <div class="col-md-12 col-sm-12 col-xs-12 shipp_marg">
               <div class="form-group log_padding">
                 <label for="name" class="">Name</label>
@@ -501,13 +547,6 @@ foreach ($cart_items as $item_id => $item):
                   <input type="date" class="form-control input_height4" placeholder="Enter date" name="dob1" id="dob1">
                 </div>
               </div>
-              <!-- <div class="form-group">
-                            <label for="sel1" class="">Gender</label>
-                        </div> 
-                      <div class="form-group radio_top">
-                             <label class="radio-inline"><input type="radio" name="optradio" class="radio_top1">Male</label>
-                              <label class="radio-inline"><input type="radio" name="optradio" class="radio_top1">Female</label>
-                  </div>  -->
               <div class="form-group">
                 <label for="sel1">Gender</label>
                 <div class="valid">
@@ -518,25 +557,37 @@ foreach ($cart_items as $item_id => $item):
                   </select>
                 </div>
               </div>
+              <?php
+                $select = "SELECT * FROM state";
+                $state_query = mysqli_query($connect, $select);
+              ?>
               <div class="form-group">
                 <label for="sel1">State</label>
                 <div class="valid">
                   <select class="form-control input_height4" name="State1" id="State1">
                     <option value="">Select State</option>
-                    <option value="jharkhand">jharkhand</option>
-                    <option value="westbengal">westbengal</option>
-                    <option value="odisha">odisha</option>
+                    <?php while($row = mysqli_fetch_assoc($state_query)) { ?>
+                    <option value="<?php echo $row['id']; ?>">
+                      <?php echo $row['state_name']; ?>
+                    </option>
+                    <?php } ?>
                   </select>
                 </div>
               </div>
+               <?php
+                $city_select = "SELECT * FROM city";
+                $city_query = mysqli_query($connect, $city_select);
+              ?>
               <div class="form-group">
                 <label for="sel2">City</label>
                 <div class="valid">
                   <select class="form-control input_height4" name="City1" id="City1">
                     <option value="">Select City</option>
-                    <option value="jamshedpur">jamshedpur</option>
-                    <option value="kolkata">kolkata</option>
-                    <option value="cuttack">cuttack</option>
+                    <?php while($row = mysqli_fetch_assoc($city_query)) { ?>
+                    <option value="<?php echo $row['id']; ?>">
+                      <?php echo $row['city_name']; ?>
+                    </option>
+                    <?php } ?>
                   </select>
                 </div>
               </div>
@@ -552,10 +603,10 @@ foreach ($cart_items as $item_id => $item):
         </div>
         <!--End shipping section-->
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 border_st text-center pad_rem border_topp">
-            <a href="thank_you.php"> <button type="Submit" value="Submit"
+          <!-- <div class="col-md-12 col-sm-12 col-xs-12 border_st text-center pad_rem border_topp"> -->
+            <a href="thank_you.php"><button type="Submit" value="Submit"
               class="btn btn-danger cart_btn cart_pad btn_color" id="save">PROCEED TO CHECKOUT</button></a>
-          </div>
+          <!-- </div> -->
         </div>
       </form>
     </div>

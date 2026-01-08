@@ -49,62 +49,67 @@
   }
 
   // ------------- php code of authentication ----------------
-    // if(isset($_POST['save1']))
-    // {
-    //   $email = mysqli_real_escape_string($connect, $_POST['email']);
-    //   $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
-    //   $authenticate = "SELECT * FROM user WHERE email = '".$email."' AND password = '".$password."'";
-    //   $run_rec = mysqli_query($connect, $authenticate);
-    //   $fetch = mysqli_fetch_array($run_rec);
-    //   $num = mysqli_num_rows($run_rec);
-    //   if($num>0)
-    //   {
-    //     $_SESSION['user_id'] = $fetch['id'];
-    //     echo'<script>window.location.href="index.php"</script>';
-    //   }else{
-    //     echo '<script>alert("something wrong")</script>';
-    //   }
+   if (isset($_POST['save1'])) {
 
-    //   $id = $_SESSION['user_id'];
-    //   $select = "SELECT * FROM user WHERE id = '".$id."'";
-    //   $run = mysqli_query($connect, $select);
-    //   $fetch = mysqli_fetch_array($run);
-    // }
-
-    if(isset($_POST['save1']))
-{
     $email = mysqli_real_escape_string($connect, $_POST['email']);
     $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
 
-    $authenticate = "SELECT * FROM user WHERE email = '".$email."' AND password = '".$password."'";
-    $run_rec = mysqli_query($connect, $authenticate);
-    $num = mysqli_num_rows($run_rec);
+    $query = "SELECT * FROM user WHERE email='$email' AND password='$password'";
+    $result = mysqli_query($connect, $query);
 
-    if($num > 0)
-    {
-        $fetch = mysqli_fetch_array($run_rec);
+    if (mysqli_num_rows($result) > 0) {
 
-        $_SESSION['user_id']      = $fetch['id'];
-        $_SESSION['user_name']    = $fetch['name'];
-        $_SESSION['user_email']   = $fetch['email'];
-        $_SESSION['user_phone_no']   = $fetch['phone_no']; 
-        $_SESSION['user_address'] = $fetch['address'];
-        $_SESSION['user_dob']     = $fetch['dob'];
-        $_SESSION['user_gender']  = $fetch['gender'];
-        $_SESSION['user_state']   = $fetch['state'];
-        $_SESSION['user_city']    = $fetch['city'];
-        $_SESSION['user_zip']     = $fetch['zipcode'];
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $row['id'];
 
-        $redirect = $_SESSION['redirect_after_login'] ?? 'index.php';
-        unset($_SESSION['redirect_after_login']);
+        // 🔴 REDIRECT LOGIC
+        if (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
+            $redirect = $_GET['redirect'];
+            echo "<script>window.location.href='$redirect';</script>";
+        } else {
+            echo "<script>window.location.href='index.php';</script>";
+        }
 
-        echo '<script>window.location.href="'.$redirect.'"</script>';
-        exit;
-
+        exit();
     } else {
-        echo '<script>alert("Invalid email or password!")</script>';
+        echo "<script>alert('Invalid Email or Password');</script>";
     }
 }
+
+//     if(isset($_POST['save1']))
+// {
+//     $email = mysqli_real_escape_string($connect, $_POST['email']);
+//     $password = md5(mysqli_real_escape_string($connect, $_POST['password']));
+
+//     $authenticate = "SELECT * FROM user WHERE email = '".$email."' AND password = '".$password."'";
+//     $run_rec = mysqli_query($connect, $authenticate);
+//     $num = mysqli_num_rows($run_rec);
+
+//     if($num > 0)
+//     {
+//         $fetch = mysqli_fetch_array($run_rec);
+
+//         $_SESSION['user_id']      = $fetch['id'];
+//         $_SESSION['user_name']    = $fetch['name'];
+//         $_SESSION['user_email']   = $fetch['email'];
+//         $_SESSION['user_phone_no']   = $fetch['phone_no']; 
+//         $_SESSION['user_address'] = $fetch['address'];
+//         $_SESSION['user_dob']     = $fetch['dob'];
+//         $_SESSION['user_gender']  = $fetch['gender'];
+//         $_SESSION['user_state']   = $fetch['state'];
+//         $_SESSION['user_city']    = $fetch['city'];
+//         $_SESSION['user_zip']     = $fetch['zipcode'];
+
+//         $redirect = $_SESSION['redirect_after_login'] ?? 'index.php';
+//         unset($_SESSION['redirect_after_login']);
+
+//         echo '<script>window.location.href="'.$redirect.'"</script>';
+//         exit;
+
+//     } else {
+//         echo '<script>alert("Invalid email or password!")</script>';
+//     }
+// }
 
     // $otp_str = str_shuffle("0123456789");
     // $otp = substr($otp_str, 0, 6);
