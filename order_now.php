@@ -1,5 +1,5 @@
 <?php
-  session_start(); 
+session_start(); 
   include("config.php");
   include("header.php"); 
   if (!isset($_SESSION['user_id'])) {
@@ -21,30 +21,15 @@
   $query = "SELECT * FROM user WHERE id='$user_id'";
   $result = mysqli_query($connect, $query);
   $user = mysqli_fetch_assoc($result);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- <title>My Burgatory</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery.validate.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script> -->
-
-
   <script type="text/javascript">
 
-    $.validator.setDefaults({
-      submitHandler: function () {
-        alert("submitted!");
-      }
-    });
 
     $(document).ready(function () {
 
@@ -333,7 +318,6 @@
 
     });
 
-
   </script>
 </head>
 
@@ -348,7 +332,6 @@
   </div>
 
   <div class="container">
-    <!--start order section-->
     <div class="table-responsive">
       <table class="table table-striped table-hover border_st">
         <thead>
@@ -601,13 +584,15 @@
             </div>
           </div>
         </div>
-        <!--End shipping section-->
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <!-- <div class="col-md-12 col-sm-12 col-xs-12 border_st text-center pad_rem border_topp"> -->
-            <a href="thank_you.php"><button type="Submit" value="Submit"
-              class="btn btn-danger cart_btn cart_pad btn_color" id="save">PROCEED TO CHECKOUT</button></a>
-          <!-- </div> -->
+       <div class="col-md-12 col-sm-12 col-xs-12">
+          <a href="thank_you.php">
+            <button type="submit" name="checkout" 
+            class="btn btn-danger cart_btn cart_pad btn_color">
+            PROCEED TO CHECKOUT
+            </button>
+          </a>
         </div>
+
       </form>
     </div>
   </div>

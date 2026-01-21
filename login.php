@@ -1,6 +1,68 @@
 <?php
   include("config.php");
   include("header.php");
+
+//  $otp = substr(str_shuffle("0123456789"), 0, 5);
+// $activation_code = str_shuffle("abcdefghijklmn".rand(100000,999999));
+
+// if(isset($_POST['save'])){
+
+//     $name     = $_POST['name'];
+//     $email    = $_POST['email'];
+//     $phone    = $_POST['phone'];
+//     $password = md5($_POST['password']);
+//     $address  = $_POST['address'];
+//     $dob      = $_POST['dob'];
+//     $gender   = $_POST['gender'];
+//     $state    = $_POST['state'];
+//     $city     = $_POST['city'];
+//     $zipcode  = $_POST['Zipcode'];
+
+//     /* CHECK EMAIL */
+//     $check = mysqli_query($connect,"SELECT id,status FROM user WHERE email='$email'");
+    
+//     if(mysqli_num_rows($check) > 0){
+//         echo "<script>alert('Email already exists');</script>";
+//         exit;
+//     }
+
+//     /* INSERT USER FIRST */
+//     $insert = "INSERT INTO user
+//     (name,email,phone_no,password,address,dob,gender,state,city,zip_code,otp,activation_code,status)
+//     VALUES
+//     ('$name','$email','$phone','$password','$address','$dob','$gender','$state','$city','$zipcode','$otp','$activation_code','inactive')";
+
+//     if(mysqli_query($connect,$insert)){
+
+//         /* SEND MAIL */
+//         require 'class/class.phpmailer.php';
+//         $mail = new PHPMailer;
+//         $mail->isSMTP();
+//         $mail->Host = 'smtp.gmail.com';
+//         $mail->Port = 587;
+//         $mail->SMTPAuth = true;
+//         $mail->Username = 'rishabhdevkumar77@gmail.com';
+//         $mail->Password = 'tbjjjvmavcsbufjj';
+//         $mail->SMTPSecure = 'tls';
+
+//         $mail->setFrom('rishabhdevkumar77@gmail.com','Signup Verification');
+//         $mail->addAddress($email);
+//         $mail->isHTML(true);
+//         $mail->Subject = 'Email Verification';
+//         $mail->Body = "<p>Your OTP is <b>$otp</b></p>";
+
+//         if($mail->send()){
+//             header("Location: menus.php?code=$activation_code");
+//             exit;
+//         }else{
+//             echo "Mailer Error: ".$mail->ErrorInfo;
+//         }
+
+//     }else{
+//         echo "DB Error: ".mysqli_error($connect);
+//     }
+// }
+
   $user_id = $_SESSION['user_id'];
   $change_profile = "SELECT * FROM `user` WHERE id='".$user_id."'";
   $run_profile = mysqli_query($connect,$change_profile);
@@ -62,7 +124,6 @@
         $row = mysqli_fetch_assoc($result);
         $_SESSION['user_id'] = $row['id'];
 
-        // 🔴 REDIRECT LOGIC
         if (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
             $redirect = $_GET['redirect'];
             echo "<script>window.location.href='$redirect';</script>";
@@ -419,6 +480,8 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <form data-toggle="validator" role="form" id="myform" method="POST" action=""
                 enctype="multipart/form-data">
+                <input type="hidden" name="otp" value="<?php echo $otp; ?>">
+                <input type="hidden" name="activation_code" value="<?php echo $activation_code; ?>">
                 <div class="form-group log_padding">
                   <label for="name" class="">Name</label>
                   <div class="valid">

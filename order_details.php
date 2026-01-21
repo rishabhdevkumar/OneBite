@@ -1,30 +1,18 @@
 <?php
-  include("config.php");
-  session_start();  
-  if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
-  {
-    header("Location: index.php");
-  }
+session_start();
+include("config.php");
+include("header.php");
+
+$order_id = $_GET['order_id'];
+$order_details = mysqli_query($connect, "SELECT * FROM orders_details WHERE order_id='$order_id'");
+$order = mysqli_fetch_assoc($order_details);
+
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<body id="myPage">
 
-<head>
-  <title>My Burgatory</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-</head>
-
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-  <?php $nav = "home";
-    include("header.php"); 
-  ?>
-  <div class="container-fluid">
+<div class="container-fluid">
     <div class="row imagd-height">
       <img src="image/goa-dining-banner.jpg" class="pos_re">
       <div class="carousel-caption abt_margin">
@@ -126,10 +114,7 @@
     </div>
   </div>
   </div>
-  <?php
-    include("footer.php"); 
-  ?>
 
+<?php include("footer.php"); ?>
 </body>
-
 </html>

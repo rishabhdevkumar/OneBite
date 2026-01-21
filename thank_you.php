@@ -1,29 +1,15 @@
 <?php
+  session_start(); 
   include("config.php");
-  session_start();  
-  if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
-  {
-    header("Location: index.php");
-  }
+  include("header.php"); 
+   
+  // if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
+  // {
+  //   header("Location: index.php");
+  // }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <title>My Burgatory</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-</head>
-
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-  <?php $nav = "home";
-    include("header.php"); 
-  ?>
   <div class="container-fluid">
     <div class="row imagd-height">
       <img src="image/Flooka1.jpg" class="pos_re">
