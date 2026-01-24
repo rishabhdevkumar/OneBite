@@ -1,26 +1,113 @@
 <?php
-session_start(); 
+  session_start(); 
   include("config.php");
-  include("header.php"); 
-  if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php?redirect=order_now.php");
-    exit();
-  }
-   
-  if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
-  {
-    header("Location: index.php");
-  }
+  include("header.php");
+  // date_default_timezone_set('Asia/Kolkata');
+  // if(isset($_SESSION['user_id']) && $_SESSION['user_id']!='')
+  //   {
+  //     $acc_id = $_SESSION['user_id'];
+  //     $acc_select = "SELECT * FROM `orders_details` WHERE user_id = '".$acc_id."'";
+  //     $run_acc = mysqli_query($conn,$acc_select);
+  //     $find_account = mysqli_fetch_array($run_acc);
+  //   }
+  //   include("header.php");
+  //   $total1 = 0;
+  //   $dg = '';
+  //   foreach ($_SESSION['add_cart'] as $key => $item)
+  //   {
+  //     $dd=$item['product_price']*$item['product_qty'];
+  //     $total_spl.="".$dd.",";
+  //     $total1+= $dd;
+  //     $total_qty+=$item['product_qty'];
+  //     $dg.="".$item['product_name'].",";
+  //     $qty_spl.="".$item['product_qty'].",";
+  //   }
 
-  $user_name  = $_SESSION['user_name'];
-  $user_email = $_SESSION['user_email'];
+  //   if (isset($_POST['save'])) 
+  // {
+  //   $today = date("ymd");
+  //   $hg = 'ORD_';
+  //   $rand = strtoupper(substr(uniqid(sha1(time())), 0, 3));
+  //   $order_id = $hg.$today . $rand;
+  //   $user_id = $_SESSION['user_id'];
+  //   $session_id = $_SESSION['user_id'];
+  //   $name = trim($_POST['name']);
+  //   $parts = explode(' ', $name);
+  //   $billing_f_name = trim(array_pop($parts));
+  //   $billing_l_name = trim(implode(" ",$parts));
+  //   $billing_email   = trim($_POST['email']);
+  //   $billing_phno    = trim($_POST['phone']);
+  //   $billing_add     = trim($_POST['address']);
+  //   $billing_dob     = trim($_POST['dob']);
+  //   $date = trim($_POST['date']);
+  //   $total12 = $total1;
+  //   $tot_spl1 = rtrim($total_spl,',');
+  //   $order_items = rtrim($dg,",");
+  //   $total_qty1 = $total_qty;
+  //   $qty_spl1 = rtrim($qty_spl,',');
+  //   $billing_gender  = trim($_POST['gen']);
+  //   $billing_state   = trim($_POST['state']);
+  //   $billing_city    = trim($_POST['city']);
+  //   $billing_zipcode = trim($_POST['Zipcode']);
+  //   $name1 = trim($_POST['name1']);
+  //   $parts1 = explode(' ', $name1);
+  //   $shipping_f_name = trim(array_pop($parts));
+  //   $shipping_l_name = trim(implode(" ",$parts));
+  //   $shipping_email   = trim($_POST['email1']);
+  //   $shipping_phno    = trim($_POST['phone1']);
+  //   $shipping_add     = trim($_POST['address1']);
+  //   $shipping_dob     = trim($_POST['dob1']);
+  //   $date1 = trim($_POST['date1']);
+  //   $shipping_gender  = trim($_POST['gen1']);
+  //   $shipping_state   = trim($_POST['State1']);
+  //   $shipping_city    = trim($_POST['City1']);
+  //   $shipping_zipcode = trim($_POST['Zipcode1']);
 
-  $cart_items = $_SESSION['add_cart'] ?? [];
-  $total_price = 0;
+  //   $insert = "INSERT INTO orders (order_no,user_id,order_items,date,quantity,quentity_split,amount,amount_split)
+  //   VALUES ('".$order_no."','".$user_id."','".$order_items."','".$date."','".$quantity."','".$quentity_split."','".$amount."','".$amount_split."')";
+  //   $insert_query = mysqli_query($conn, $insert);
+    
+  //   $add_data = "INSERT INTO orders_details (orders_id,user_id,session_id,date,amount,billing_f_name,
+  //   billing_l_name,billing_email,billing_phno,billing_add,billing_pstl_cd,billing_city,billing_state,shipping_f_name,
+  //   shipping_l_name,shipping_email,shipping_phno,shipping_add,shipping_pstl_cd,shipping_city,shipping_state)
+  //   VALUES ('".$orders_id."','".$user_id."','".$session_id."','".$date."','".$amount."','".$billing_f_name."','".$billing_l_name."',
+  //   '".$billing_email."','".$billing_phno."','".$billing_add."','".$billing_zip."','".$billing_city."','".$billing_state."','".$shipping_f_name."',
+  //   '".$shipping_l_name."','".$shipping_email."','".$shipping_phno."','".$shipping_add."','".$shipping_zip."','".$shipping_city."','".$shipping_state."')";
+  //   $add_query = mysqli_query($conn,$add_data);
+
+  //   $mail_body = "Dear ".$billing_f_name ." ".$billing_l_name.",<br/><br/> <br/>Congratulations! Your booking is successfully
+  //   Done. Following Descriptions Access Details.
+  //   <br/><br/><b>Billing Name:</b>".$billing_f_name." ".$billing_l_name."<br/><br/><b>Shippling Name:</b>".$shipping_f_name."
+  //   ".$shipping_l_name."<br/><b><br/>Billing Email:</b>".$billing_email."<b><br/>Shipping Email:</b>".$shipping_email."
+  //   <br/><b>Billing Phone No:</b>".$billing_phno."<br/><br/><b>Shipping Phone No:</b>".$shipping_phno."<br/><br/><b>
+  //   Order No:</b>".$order_id."<br/><br/><b>Order Date:</b>".$date."<br/><br/>Regards,<br/>Administrator";
+
+  //   $mail_body1 = "Dear ".$billing_f_name ." ".$billing_l_name.",<br/><br/> <br/>Congratulations! Your booking is successfully
+  //   Done. Following Descriptions Access Details.
+  //   <br/><br/><b>Billing Name:</b>".$billing_f_name." ".$billing_l_name."<br/><br/><b>Shippling Name:</b>".$shipping_f_name."
+  //   ".$shipping_l_name."<br/><b><br/>Billing Email:</b>".$billing_email."<b><br/>Shipping Email:</b>".$shipping_email."
+  //   <br/><b>Billing Phone No:</b>".$billing_phno."<br/><br/><b>Shipping Phone No:</b>".$shipping_phno."<br/><br/><b>
+  //   Order No:</b>".$order_id."<br/><br/><b>Order Date:</b>".$date."<br/><br/>Regards,<br/>OneBite Resturent";
+
+  //   if($insert_query && $add_query)
+  //     {
+  //       $select_email = "SELECT * FROM `admin_master` WHERE username = 'admin'";
+  //       $run_mail = mysqli_query($conn, $select_email);
+  //       $admin_details = mysqli_fetch_array($run_mail);
+  //       mail($admin_details['email_address'],'', 'Booking', $mail_body);
+  //       mail($email, '', 'Booking', $mail_body1);
+  //       echo "<script>window.location.href='thank_you.php?data1=+$data';</script>";
+  //     }
+  //     else{
+  //       echo '<script>alert("ERROR");</script>';
+  //     }
+    
+  // }
   $user_id = $_SESSION['user_id'];
   $query = "SELECT * FROM user WHERE id='$user_id'";
   $result = mysqli_query($connect, $query);
   $user = mysqli_fetch_assoc($result);
+
 ?>
 
 
@@ -341,39 +428,35 @@ session_start();
             </th>
           </tr>
           <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
+            <th style="font-weight: 800; color:#222831">SL.No</th>
+            <th style="font-weight: 800; color:#222831">PRODUCT</th>
+            <th style="font-weight: 800; color:#222831">PRICE</th>
+            <th style="font-weight: 800; color:#222831">QUANTITY</th>
+            <th style="font-weight: 800; color:#222831">TOTAL</th>
           </tr>
         </thead>
         <tbody>
           <?php
-            $total_price = 0;
-
-            foreach ($cart_items as $item_id => $item):
-              $subtotal = $item['product_price'] * $item['product_qty'];
-              $total_price += $subtotal;
+            $i = 1;
+            $total = 0;
+            foreach ($_SESSION['add_cart'] as $key => $item)
+              {
           ?>
           <tr>
-            <td><?php echo $item['product_name']; ?></td>
-            <td>$<?php echo number_format($item['product_price'], 2); ?></td>
-            <td>
-              <input type="number"
-                name="qty[<?php echo $item_id; ?>]"
-                value="<?php echo $item['product_qty']; ?>"
-                class="cart_input" min="1">
-            </td>
-            <td>$<?php echo number_format($subtotal, 2); ?></td>
+            <td><?php echo $i;?></td>
+            <td><?php echo ucwords($item['product_name']);?></td>
+            <td><?php echo ucwords($item['product_price']);?></td>
+            <td><?php echo ucwords($item['product_qty']);?></td>
+            <td><?php echo number_format($dd=$item['product_price'] * $item['product_qty'],2);?></td>
           </tr>
-          <?php endforeach; ?>
+          <?php $total += $dd; $i++; } ?>
           <tr>
-            <th colspan="3">Subtotal</th>
-            <th>$<?php echo number_format($total_price, 2); ?></th>
+            <th colspan="4" style="font-weight: 800; color:#222831">SUBTOTAL</th>
+            <td><?php echo number_format($total, 2);?></td>
           </tr>
           <tr>
-            <th colspan="3">Total</th>
-            <th>$<?php echo number_format($total_price, 2); ?></th>
+            <th colspan="4" style="font-weight: 800; color:#222831">TOTAL</th>
+            <th><?php echo number_format($total, 2); ?></th>
           </tr>
         </tbody>
       </table>
@@ -381,7 +464,7 @@ session_start();
 
     <!--start billing and shipping section-->
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <form data-toggle="validator" role="form" id="myform">
+      <form data-toggle="validator" role="form" id="myform" method="POST" action="order_now.php">
         <!--start billing section-->
         <div class="col-md-6 col-sm-12 col-xs-12 regis_mar">
           <div class="col-md-12 col-sm-12  col-xs-12 border_st">
@@ -584,15 +667,12 @@ session_start();
             </div>
           </div>
         </div>
-       <div class="col-md-12 col-sm-12 col-xs-12">
-          <a href="thank_you.php">
-            <button type="submit" name="checkout" 
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <button type="submit" name="save" 
             class="btn btn-danger cart_btn cart_pad btn_color">
             PROCEED TO CHECKOUT
-            </button>
-          </a>
+          </button>
         </div>
-
       </form>
     </div>
   </div>

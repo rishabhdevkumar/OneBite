@@ -1,6 +1,8 @@
 <?php
   include("config.php");
   include("header.php");
+  // $_SESSION['user_id'] = $row['id'];
+
 
 //  $otp = substr(str_shuffle("0123456789"), 0, 5);
 // $activation_code = str_shuffle("abcdefghijklmn".rand(100000,999999));
