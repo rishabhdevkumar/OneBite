@@ -83,9 +83,9 @@
               <p class="undr_line"></p>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 cbc">
-              <h6>
+              <p>
                 <?php echo $menu['description']; ?>
-              </h6>
+              </p>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 www">
               <a href="menus.php?category_id=<?php echo base64_encode($menu['id']); ?>">

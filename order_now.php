@@ -668,10 +668,12 @@
           </div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <button type="submit" name="save" 
-            class="btn btn-danger cart_btn cart_pad btn_color">
-            PROCEED TO CHECKOUT
-          </button>
+          <a href="thank_you.php" class="btn btn-danger cart_btn cart_pad btn_color">
+            <!-- <button type="submit" name="save" 
+              class="btn btn-danger cart_btn cart_pad btn_color"> -->
+              PROCEED TO CHECKOUT
+            <!-- </button> -->
+          </a>
         </div>
       </form>
     </div>

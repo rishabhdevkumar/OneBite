@@ -38,17 +38,14 @@ function remove_cart(key) {
     });
 }
 
-function update_cart_qty(p_id) {
+function update_cart_qty(p_id) 
+{
 
     let qty = $("#qty_" + p_id).val();
-
-    // 🔴 If quantity is ZERO → remove item completely
     if (qty == 0) {
         remove_cart(p_id);
         return;
     }
-
-    // ✅ Otherwise update quantity
     $.ajax({
         url: "update_cart_qty.php",
         type: "POST",
@@ -58,24 +55,15 @@ function update_cart_qty(p_id) {
             qty: qty
         },
         success: function (res) {
-
-            // Update row subtotal
             $("#subtotal_" + p_id).text("Rs. " + res.subtotal);
 
-            // Update totals
             $("#dd").text(res.total);
             $("#dd1").text(res.total);
-
-            // Update cart count
             $("#item_cart").text(res.count);
-
-            // Update header mini cart
             $("#header_cart_items").html(res.html);
         }
     });
 }
-
-
 
 </script>
 
@@ -85,7 +73,7 @@ function update_cart_qty(p_id) {
       <img src="image/AtholPlace-Restaurant.jpg" class="pos_re">
       <div class="carousel-caption abt_margin">
         <h3 class="abt_width cart_font">CART</h3>
-        <p class="kkk1 cart_marg">READY TO CHECKOUT?</p>
+        <!-- <p class="kkk1 cart_marg">READY TO CHECKOUT?</p> -->
       </div>
     </div>
   </div>
@@ -97,15 +85,17 @@ function update_cart_qty(p_id) {
           <thead>
             <tr>
               <th></th>
-              <th class="text-center cart_weight">Image </th>
-              <th class="text-center cart_weight">Product</th>
-              <th class="text-center cart_weight">Price</th>
-              <th class="text-center cart_weight">Quantity</th>
-              <th class="text-center cart_weight">Total</th>
+              <th class="cart_weight">SL.NO</th>
+              <th class="text-center cart_weight">IMAGE</th>
+              <th class="text-center cart_weight">PRODUCT</th>
+              <th class="text-center cart_weight">PRICE</th>
+              <th class="text-center cart_weight">QUANTITY</th>
+              <th class="text-center cart_weight">TOTAL</th>
             </tr>
           </thead>
           <tbody id="cart_table_body">
             <?php
+              $i = 1;
               $grand_total = 0;
               if (isset($_SESSION['add_cart']) && count($_SESSION['add_cart']) > 0) {
 
@@ -119,6 +109,7 @@ function update_cart_qty(p_id) {
                   <img src="image/cancel1.png" class="cart_padd padd_img1">
                 </a>
               </td>
+              <td><?php echo $i;?></td>
               <td class="td_img">
                 <img src="admin/menu_img/<?php echo $item['product_image']; ?>" class="td_img">
               </td>
@@ -126,17 +117,18 @@ function update_cart_qty(p_id) {
                 <?php echo $item['product_name']; ?>
               </td>
               <td class="text-center cart_padd">
-                Rs. <?php echo $item['product_price']; ?>
+                <?php echo $item['product_price']; ?>
               </td>
               <td class="text-center cart_padd">
                 <input type="number" id="qty_<?php echo $key; ?>" value="<?php echo $item['product_qty']; ?>"
                   onchange="update_cart_qty(<?php echo $key; ?>)">
               </td>
               <td class="text-center cart_padd" id="subtotal_<?php echo $key; ?>">
-                Rs. <?php echo $item['product_price'] * $item['product_qty']; ?>
+                <?php echo $item['product_price'] * $item['product_qty']; ?>
               </td>   
             </tr>
             <?php
+             $i++;
               }
               } else {
             ?>
@@ -165,7 +157,7 @@ function update_cart_qty(p_id) {
       <div class="col-md-12 col-sm-12 col-xs-12 border_st pad_rem">
         <div class="col-md-12 col-sm-12 col-xs-12 border_st" style="box-shadow: none;">
           <div class="col-md-6 col-sm-12 col-xs-12 pad_rem">
-            <h5 class="cart_weight">Subtotal</h5>
+            <h5 class="cart_weight">SUBTOTAL</h5>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 pad_rem">
             <h5 class="cart_weight">Rs.
@@ -176,7 +168,7 @@ function update_cart_qty(p_id) {
         <hr>
         <div class="col-md-12 col-sm-12 col-xs-12 border_st" style="box-shadow: none;">
           <div class="col-md-6 col-sm-12 col-xs-12 pad_rem">
-            <h5 class="cart_weight">Total</h5>
+            <h5 class="cart_weight">TOTAL</h5>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 pad_rem">
             <h5 class="cart_weight">Rs.
