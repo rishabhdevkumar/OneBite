@@ -9,6 +9,18 @@
   $run = mysqli_query($connect, $select);
   $fetch = mysqli_fetch_array($run);
 
+  if (session_status() == PHP_SESSION_NONE) 
+    {
+      session_start();
+    }
+
+  if (!isset($_SESSION['add_cart']) || !is_array($_SESSION['add_cart']))
+  {
+    $_SESSION['add_cart'] = [];
+  }
+
+  $_SESSION['item_count'] = count($_SESSION['add_cart']);
+
 ?>
 
 <!DOCTYPE html>
@@ -102,7 +114,7 @@
                   </span>
                 </span>
                  <span class="item-right">
-                  <button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""></button>
+                  <a href="cart.php"><button class="btn btn-xs cap_mar1"><img src="image/pencil.png" alt=""></button></a>
                   <button class="btn btn-xs btn-danger pull-right">x</button>
                 </span>
               </span>

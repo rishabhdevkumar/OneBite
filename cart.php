@@ -134,17 +134,10 @@ function update_cart_qty(p_id)
             ?>
             <tr>
               <td colspan="6" class="text-center">
-                <h5 class="empty-cart-text"><strong><em>Cart is Empty</em></strong></h5>
+                <h5 class="empty-cart-text"><strong>Ohh! Sorry Your Cart is Empty</strong></h5>
               </td>
             </tr>
             <?php } ?>
-            <!-- <tr>
-              <td colspan="6">
-                <button type="submit" name="update_cart" class="btn btn-danger cart_btn btn_color">
-                  UPDATE CART
-                </button>
-              </td>
-            </tr> -->
           </tbody>
         </table>
       </div>

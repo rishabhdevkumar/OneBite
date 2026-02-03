@@ -27,7 +27,7 @@ if (isset($_POST['save']))
 
     $today = date("ymd");
     $order_no = 'ORD_' . $today . strtoupper(substr(uniqid(), -3));
-    $date = date('Y-m-d');  
+    $date = date('Y-m-d H:i:s');  
     $order_items = rtrim($dg, ",");
     $quantity = $total_qty;
     $quantity_split = rtrim($qty_spl, ",");
@@ -73,6 +73,9 @@ if (isset($_POST['save']))
 
     if ($run_order && $run_details) 
       {
+         $_SESSION['ordered_cart'] = $_SESSION['add_cart'];
+
+        unset($_SESSION['add_cart']);  
         echo "<script>window.location.href='thank_you.php?oid=".$enc_order_id."';</script>";
       } else {
         die("DB ERROR: " . mysqli_error($connect));

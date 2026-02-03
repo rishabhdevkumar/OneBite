@@ -3,10 +3,10 @@
   include("config.php");
   include("header.php"); 
    
-  if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']))
-  {
-    header("Location: index.php");
-  }
+  $user_id = $_SESSION['user_id'];
+
+  $order_q = "SELECT * FROM orders WHERE user_id='$user_id' ORDER BY id DESC";
+  $run_order = mysqli_query($connect,$order_q);
 ?>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
@@ -27,127 +27,73 @@
         <table class="table table-striped table-hover border_st table_margin">
           <thead>
             <tr>
-              <th class="my_order_back">Order Number</th>
-              <th class="my_order_back">Order Date</th>
-              <th class="my_order_back">Total Price</th>
-              <th class="my_order_back">Payment Type</th>
-              <th class="my_order_back">Order At</th>
-              <th class="my_order_back">Status</th>
+              <th class="my_order_back">ORDER NUMBER</th>
+              <th class="my_order_back">ORDER DATE</th>
+              <th class="my_order_back">TOTAL PRICE</th>
+              <th class="my_order_back">ORDER ITEMS</th>
+              <th class="my_order_back">ORDER TYPE</th>
+              <th class="my_order_back">STATUS</th>
             </tr>
           </thead>
           <tbody>
+            <?php
+             if (mysqli_num_rows($run_order) > 0) {
+             while ($order = mysqli_fetch_assoc($run_order)) {
+            ?>
             <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
+              <td class="my_order_back1">
+                <?php echo $order['order_no']; ?>
+              </td>
+              <td class="my_order_back1">
+                <?php echo date("d-m-Y (H:i:s)", strtotime($order['date'])); ?>
+              </td>
+              <td class="my_order_back1">
+                ₹<?php echo number_format($order['amount'], 2); ?>
+              </td>
+              <td class="my_order_back1">
+                 <?php
+                  $items = explode(",", $order['order_items']);  
+                  $qtys  = explode(",", $order['quantity_split']); 
+
+                  foreach ($items as $k => $item) 
+                  {
+                    echo trim($item) . " (Qty: " . ($qtys[$k] ?? 1) . ")<br>";
+                  }
+                ?>
+              </td>
+              <td class="my_order_back1">Online</td>
+              <td class="my_order_back1">
+                <?php
+                  switch ($order['status']) 
+                  {
+                    case 'pending':
+                      echo "<span style='color:orange;'>Pending</span>";
+                      break;
+                    case 'confirmed':
+                      echo "<span style='color:blue;'>Confirmed</span>";
+                      break;
+                    case 'delivered':
+                      echo "<span style='color:green;'>Delivered</span>";
+                      break;
+                    case 'cancelled':
+                      echo "<span style='color:red;'>Cancelled</span>";
+                      break;
+                    default:
+                      echo "<span style='color:gray;'>Unknown</span>";
+                  }
+                ?>
+              </td>
             </tr>
+            <?php
+              }
+                } else {
+            ?>
             <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
+              <td colspan="6" class="text-center my_order_back1">
+                NO ORDERS FOUND!
+              </td>
             </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
-            <tr>
-              <td class="my_order_back1">11211</td>
-              <td class="my_order_back1">05-04-2007</td>
-              <td class="my_order_back1">$1211</td>
-              <td class="my_order_back1">debit card</td>
-              <td class="my_order_back1">dqwdwq</td>
-              <td class="my_order_back1">dwdwddg</td>
-            </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>

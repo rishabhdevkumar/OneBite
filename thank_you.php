@@ -30,6 +30,7 @@
   $products  = explode(",", $order['order_items']);
   $qtys      = explode(",", $order['quantity_split']);
   $prices    = explode(",", $order['amount_split']);
+  $ordered_cart = $_SESSION['ordered_cart'] ?? [];
 
 ?>
 
