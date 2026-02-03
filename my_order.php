@@ -42,7 +42,9 @@
             ?>
             <tr>
               <td class="my_order_back1">
-                <?php echo $order['order_no']; ?>
+                <a href="order_details.php?order_no=<?php echo $order['order_no']; ?>">
+                  <?php echo $order['order_no']; ?>
+                </a>
               </td>
               <td class="my_order_back1">
                 <?php echo date("d-m-Y (H:i:s)", strtotime($order['date'])); ?>
