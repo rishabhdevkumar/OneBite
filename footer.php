@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
-</head>
+</head> -->
 
 <div class="container-fluid">
     <div class="row">
@@ -88,4 +88,4 @@
     </a><br><br>
     <p>© Copyright 2018 - All Rights Reserved</p>
   </footer>
-  </html>
+  <!-- </html> -->

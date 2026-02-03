@@ -30,11 +30,11 @@ if (!empty($_SESSION['add_cart'])) {
                 <img src="admin/menu_img/'.$item['product_image'].'" class="td_img">
             </td>
             <td class="text-center cart_padd">'.$item['product_name'].'</td>
-            <td class="text-center cart_padd">Rs. '.$item['product_price'].'</td>
+            <td class="text-center cart_padd">'.$item['product_price'].'</td>
             <td class="text-center cart_padd">
                 <input type="number" value="'.$item['product_qty'].'" class="cart_input">
             </td>
-            <td class="text-center cart_padd">Rs. '.$subtotal.'</td>
+            <td class="text-center cart_padd">'.$subtotal.'</td>
         </tr>';
 
         $header_html .= '
@@ -44,7 +44,7 @@ if (!empty($_SESSION['add_cart'])) {
                     <img src="admin/menu_img/'.$item['product_image'].'" class="td_img">
                     <span class="item-info">
                         <span>'.$item['product_name'].'</span>
-                        <span>Rs. '.$item['product_price'].'</span>
+                        <span>'.$item['product_price'].'</span>
                     </span>
                 </span>
             </span>

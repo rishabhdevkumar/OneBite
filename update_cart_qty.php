@@ -19,7 +19,6 @@ $subtotal = isset($_SESSION['add_cart'][$p_id])
     ? ($_SESSION['add_cart'][$p_id]['product_price'] * $_SESSION['add_cart'][$p_id]['product_qty'])
     : 0;
 
-// header cart HTML
 $cart_html = '';
 foreach ($_SESSION['add_cart'] as $key => $item) {
     $cart_html .= '
@@ -29,7 +28,7 @@ foreach ($_SESSION['add_cart'] as $key => $item) {
                 <img src="admin/menu_img/'.$item['product_image'].'">
                 <span class="item-info">
                     <span>'.$item['product_name'].'</span>
-                    <span>Rs. '.$item['product_price'].'</span>
+                    <span>'.$item['product_price'].'</span>
                 </span>
             </span>
         </span>

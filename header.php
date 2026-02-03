@@ -5,7 +5,6 @@
       $_SESSION['item_count']=0;
     }
 
-  // $id = $_SESSION['user_id'];
   $select = "SELECT * FROM user WHERE id = '".$id."'";
   $run = mysqli_query($connect, $select);
   $fetch = mysqli_fetch_array($run);

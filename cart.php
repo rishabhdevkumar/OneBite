@@ -123,7 +123,7 @@ function update_cart_qty(p_id)
                 <input type="number" id="qty_<?php echo $key; ?>" value="<?php echo $item['product_qty']; ?>"
                   onchange="update_cart_qty(<?php echo $key; ?>)">
               </td>
-              <td class="text-center cart_padd" id="subtotal_<?php echo $key; ?>">
+              <td class="text-center cart_padd" id="subtotal_<?php echo $key; ?>">Rs. 
                 <?php echo $item['product_price'] * $item['product_qty']; ?>
               </td>   
             </tr>

@@ -1,108 +1,84 @@
 <?php
   session_start(); 
+  date_default_timezone_set('Asia/Kolkata');
   include("config.php");
   include("header.php");
-  // date_default_timezone_set('Asia/Kolkata');
-  // if(isset($_SESSION['user_id']) && $_SESSION['user_id']!='')
-  //   {
-  //     $acc_id = $_SESSION['user_id'];
-  //     $acc_select = "SELECT * FROM `orders_details` WHERE user_id = '".$acc_id."'";
-  //     $run_acc = mysqli_query($conn,$acc_select);
-  //     $find_account = mysqli_fetch_array($run_acc);
-  //   }
-  //   include("header.php");
-  //   $total1 = 0;
-  //   $dg = '';
-  //   foreach ($_SESSION['add_cart'] as $key => $item)
-  //   {
-  //     $dd=$item['product_price']*$item['product_qty'];
-  //     $total_spl.="".$dd.",";
-  //     $total1+= $dd;
-  //     $total_qty+=$item['product_qty'];
-  //     $dg.="".$item['product_name'].",";
-  //     $qty_spl.="".$item['product_qty'].",";
-  //   }
 
-  //   if (isset($_POST['save'])) 
-  // {
-  //   $today = date("ymd");
-  //   $hg = 'ORD_';
-  //   $rand = strtoupper(substr(uniqid(sha1(time())), 0, 3));
-  //   $order_id = $hg.$today . $rand;
-  //   $user_id = $_SESSION['user_id'];
-  //   $session_id = $_SESSION['user_id'];
-  //   $name = trim($_POST['name']);
-  //   $parts = explode(' ', $name);
-  //   $billing_f_name = trim(array_pop($parts));
-  //   $billing_l_name = trim(implode(" ",$parts));
-  //   $billing_email   = trim($_POST['email']);
-  //   $billing_phno    = trim($_POST['phone']);
-  //   $billing_add     = trim($_POST['address']);
-  //   $billing_dob     = trim($_POST['dob']);
-  //   $date = trim($_POST['date']);
-  //   $total12 = $total1;
-  //   $tot_spl1 = rtrim($total_spl,',');
-  //   $order_items = rtrim($dg,",");
-  //   $total_qty1 = $total_qty;
-  //   $qty_spl1 = rtrim($qty_spl,',');
-  //   $billing_gender  = trim($_POST['gen']);
-  //   $billing_state   = trim($_POST['state']);
-  //   $billing_city    = trim($_POST['city']);
-  //   $billing_zipcode = trim($_POST['Zipcode']);
-  //   $name1 = trim($_POST['name1']);
-  //   $parts1 = explode(' ', $name1);
-  //   $shipping_f_name = trim(array_pop($parts));
-  //   $shipping_l_name = trim(implode(" ",$parts));
-  //   $shipping_email   = trim($_POST['email1']);
-  //   $shipping_phno    = trim($_POST['phone1']);
-  //   $shipping_add     = trim($_POST['address1']);
-  //   $shipping_dob     = trim($_POST['dob1']);
-  //   $date1 = trim($_POST['date1']);
-  //   $shipping_gender  = trim($_POST['gen1']);
-  //   $shipping_state   = trim($_POST['State1']);
-  //   $shipping_city    = trim($_POST['City1']);
-  //   $shipping_zipcode = trim($_POST['Zipcode1']);
+ $total1 = 0;
+ $total_spl = '';
+ $dg = '';
+ $qty_spl = '';
+ $total_qty = 0;
 
-  //   $insert = "INSERT INTO orders (order_no,user_id,order_items,date,quantity,quentity_split,amount,amount_split)
-  //   VALUES ('".$order_no."','".$user_id."','".$order_items."','".$date."','".$quantity."','".$quentity_split."','".$amount."','".$amount_split."')";
-  //   $insert_query = mysqli_query($conn, $insert);
-    
-  //   $add_data = "INSERT INTO orders_details (orders_id,user_id,session_id,date,amount,billing_f_name,
-  //   billing_l_name,billing_email,billing_phno,billing_add,billing_pstl_cd,billing_city,billing_state,shipping_f_name,
-  //   shipping_l_name,shipping_email,shipping_phno,shipping_add,shipping_pstl_cd,shipping_city,shipping_state)
-  //   VALUES ('".$orders_id."','".$user_id."','".$session_id."','".$date."','".$amount."','".$billing_f_name."','".$billing_l_name."',
-  //   '".$billing_email."','".$billing_phno."','".$billing_add."','".$billing_zip."','".$billing_city."','".$billing_state."','".$shipping_f_name."',
-  //   '".$shipping_l_name."','".$shipping_email."','".$shipping_phno."','".$shipping_add."','".$shipping_zip."','".$shipping_city."','".$shipping_state."')";
-  //   $add_query = mysqli_query($conn,$add_data);
+foreach ($_SESSION['add_cart'] as $key => $item)
+{
+  $dd = $item['product_price'] * $item['product_qty'];
+  $total_spl .= $dd . ",";
+  $total1 += $dd;
+  $total_qty += $item['product_qty'];
+  $dg .= $item['product_name'] . ",";
+  $qty_spl .= $item['product_qty'] . ",";
+}
 
-  //   $mail_body = "Dear ".$billing_f_name ." ".$billing_l_name.",<br/><br/> <br/>Congratulations! Your booking is successfully
-  //   Done. Following Descriptions Access Details.
-  //   <br/><br/><b>Billing Name:</b>".$billing_f_name." ".$billing_l_name."<br/><br/><b>Shippling Name:</b>".$shipping_f_name."
-  //   ".$shipping_l_name."<br/><b><br/>Billing Email:</b>".$billing_email."<b><br/>Shipping Email:</b>".$shipping_email."
-  //   <br/><b>Billing Phone No:</b>".$billing_phno."<br/><br/><b>Shipping Phone No:</b>".$shipping_phno."<br/><br/><b>
-  //   Order No:</b>".$order_id."<br/><br/><b>Order Date:</b>".$date."<br/><br/>Regards,<br/>Administrator";
+if (isset($_POST['save'])) 
+{
+    if (!isset($_SESSION['user_id'])) die("User not logged in!");
+    $user_id = $_SESSION['user_id'];
 
-  //   $mail_body1 = "Dear ".$billing_f_name ." ".$billing_l_name.",<br/><br/> <br/>Congratulations! Your booking is successfully
-  //   Done. Following Descriptions Access Details.
-  //   <br/><br/><b>Billing Name:</b>".$billing_f_name." ".$billing_l_name."<br/><br/><b>Shippling Name:</b>".$shipping_f_name."
-  //   ".$shipping_l_name."<br/><b><br/>Billing Email:</b>".$billing_email."<b><br/>Shipping Email:</b>".$shipping_email."
-  //   <br/><b>Billing Phone No:</b>".$billing_phno."<br/><br/><b>Shipping Phone No:</b>".$shipping_phno."<br/><br/><b>
-  //   Order No:</b>".$order_id."<br/><br/><b>Order Date:</b>".$date."<br/><br/>Regards,<br/>OneBite Resturent";
+    $today = date("ymd");
+    $order_no = 'ORD_' . $today . strtoupper(substr(uniqid(), -3));
+    $date = date('Y-m-d');  
+    $order_items = rtrim($dg, ",");
+    $quantity = $total_qty;
+    $quantity_split = rtrim($qty_spl, ",");
+    $amount = $total1;
+    $amount_split = rtrim($total_spl, ",");
+    $Name   = trim($_POST['name']);
+    $Email  = trim($_POST['email']);
+    $Phone  = trim($_POST['phone']);
+    $Address= trim($_POST['address']);
+    $DOB    = trim($_POST['dob']);
+    $State  = trim($_POST['state']);
+    $City   = trim($_POST['city']);
+    $Zipcode= trim($_POST['Zipcode']);
 
-  //   if($insert_query && $add_query)
-  //     {
-  //       $select_email = "SELECT * FROM `admin_master` WHERE username = 'admin'";
-  //       $run_mail = mysqli_query($conn, $select_email);
-  //       $admin_details = mysqli_fetch_array($run_mail);
-  //       mail($admin_details['email_address'],'', 'Booking', $mail_body);
-  //       mail($email, '', 'Booking', $mail_body1);
-  //       echo "<script>window.location.href='thank_you.php?data1=+$data';</script>";
-  //     }
-  //     else{
-  //       echo '<script>alert("ERROR");</script>';
-  //     }
-    
-  // }
+    $Name1   = trim($_POST['name1']);
+    $Email1  = trim($_POST['email1']);
+    $Phone1  = trim($_POST['phone1']);
+    $Address1= trim($_POST['address1']);
+    $DOB1    = trim($_POST['dob1']);
+    $State1  = trim($_POST['State1']);
+    $City1   = trim($_POST['City1']);
+    $Zipcode1= trim($_POST['Zipcode1']);
+
+    $bill_name = explode(" ", $Name, 2);
+    $billing_f_name = $bill_name[0];
+    $billing_l_name = $bill_name[1] ?? '';
+
+    $ship_name = explode(" ", $Name1, 2);
+    $shipping_f_name = $ship_name[0];
+    $shipping_l_name = $ship_name[1] ?? '';
+   
+    $insert_order = "INSERT INTO `orders`(order_no,user_id,order_items,date,quantity,quantity_split,amount,amount_split)
+    VALUES('$order_no','$user_id','$order_items','$date','$quantity','$quantity_split','$amount','$amount_split')";
+    $run_order = mysqli_query($connect,$insert_order);
+    $real_order_id = mysqli_insert_id($connect);
+    $enc_order_id  = base64_encode($real_order_id);
+
+    echo $insert_details = "INSERT INTO orders_details  (orders_id,user_id,amount,billing_f_name,billing_l_name,billing_email,billing_phno,billing_add,billing_zipcode,billing_city,
+    billing_state,shipping_f_name,shipping_l_name,shipping_email,shipping_phno,shipping_add,shipping_zipcode,shipping_city,shipping_state) 
+    VALUES('$real_order_id','$user_id','$amount','$billing_f_name','$billing_l_name','$Email','$Phone','$Address','$Zipcode','$City','$State','$shipping_f_name','$shipping_l_name',
+    '$Email1','$Phone1','$Address1','$Zipcode1','$City1','$State1')";
+    $run_details = mysqli_query($connect, $insert_details);
+
+    if ($run_order && $run_details) 
+      {
+        echo "<script>window.location.href='thank_you.php?oid=".$enc_order_id."';</script>";
+      } else {
+        die("DB ERROR: " . mysqli_error($connect));
+    }
+}
+
   $user_id = $_SESSION['user_id'];
   $query = "SELECT * FROM user WHERE id='$user_id'";
   $result = mysqli_query($connect, $query);
@@ -110,29 +86,21 @@
 
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
   <script type="text/javascript">
 
-
     $(document).ready(function () {
 
-
       $('#check').click(function () {
-
-
-        var name = $('#name').val();
-        var email = $('#email').val();
-        var phone = $('#phone').val();
-        var address = $('#address').val();
-        var dob = $('#dob').val();
-        var gen = $('#gen').val();
-        var State = $('#State').val();
-        var City = $('#City').val();
-        var Zipcode = $('#Zipcode').val();
+        const name = $('#name').val();
+        const email = $('#email').val();
+        const phone = $('#phone').val();
+        const address = $('#address').val();
+        const dob = $('#dob').val();
+        const gen = $('#gen').val();
+        const State = $('#State').val();
+        const City = $('#City').val();
+        const Zipcode = $('#Zipcode').val();
 
         if ($('#check').prop('checked') == true) {
           $('#name1').val(name);
@@ -464,7 +432,7 @@
 
     <!--start billing and shipping section-->
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <form data-toggle="validator" role="form" id="myform" method="POST" action="order_now.php">
+      <form method="POST" action="" data-toggle="validator" role="form" id="myform">
         <!--start billing section-->
         <div class="col-md-6 col-sm-12 col-xs-12 regis_mar">
           <div class="col-md-12 col-sm-12  col-xs-12 border_st">
@@ -573,8 +541,7 @@
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <label><input type="checkbox" id="check" checked>&nbsp <h5 class="remb_mar">Same as Billing
-                    Address</h5></label>
+                <label><input type="checkbox" id="check" name="same_address" checked>&nbsp <h5 class="remb_mar">Same as Billing Address</h5></label>
               </div>
             </div>
             
@@ -668,12 +635,10 @@
           </div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <a href="thank_you.php" class="btn btn-danger cart_btn cart_pad btn_color">
-            <!-- <button type="submit" name="save" 
-              class="btn btn-danger cart_btn cart_pad btn_color"> -->
+            <button type="submit" name="save" id="save" 
+              class="btn btn-danger cart_btn cart_pad btn_color">
               PROCEED TO CHECKOUT
-            <!-- </button> -->
-          </a>
+            </button>
         </div>
       </form>
     </div>
@@ -684,5 +649,3 @@
   ?>
 
 </body>
-
-</html>
