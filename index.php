@@ -1,11 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-=======
->>>>>>> a8a0eae980a8a81368bb43a21ec0855de1541cfa
   include("config.php");
   $nav = "home";
   include("header.php"); 
